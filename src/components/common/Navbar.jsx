@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai"
+import { AiOutlineMenu, AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai"
 import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { Link, matchPath, useLocation } from "react-router-dom"
@@ -18,7 +18,9 @@ function Navbar() {
   const location = useLocation()
 
   const [subLinks, setSubLinks] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     ; (async () => {
@@ -138,9 +140,32 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
+        <button onClick={() => setIsOpen(true)} className="mr-4 md:hidden">
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
         </button>
+        {isOpen && (
+          <div className="fixed inset-0 bg-richblack-900 bg-opacity-75 z-50 flex justify-end" onClick={() => setIsOpen(false)}>
+            <div className="h-full w-64 bg-richblack-800 text-white p-5 shadow-lg" onClick={(e) => e.stopPropagation()}>
+              <button className="mb-4 text-richblack-100" onClick={() => setIsOpen(false)}>
+                <AiOutlineClose fontSize={24} />
+              </button>
+              <div className="flex flex-col space-y-4">
+                {token ? (
+                  <>
+                    <Link to="/about" className="bg-richblack-700 text-white py-2 px-4 rounded text-center">About</Link>
+                    <Link to="/" className="bg-richblack-700 text-white py-2 px-4 rounded text-center">Home</Link>
+                    <Link to="/contact" className="bg-richblack-700 text-white py-2 px-4 rounded text-center">Contact Us</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="bg-richblack-700 text-white py-2 px-4 rounded text-center">Login</Link>
+                    <Link to="/signup" className="bg-richblack-700 text-white py-2 px-4 rounded text-center">Signup</Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
