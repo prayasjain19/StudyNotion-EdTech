@@ -60,7 +60,7 @@ exports.updateProfile = async (req, res) => {
 exports.deleteAccount = async (req, res) => {
   try {
     const id = req.user.id
-    console.log(id)
+    // console.log(id)
     const user = await User.findById({ _id: id })
     if (!user) {
       return res.status(404).json({

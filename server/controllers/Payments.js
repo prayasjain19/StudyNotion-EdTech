@@ -160,7 +160,7 @@ const enrollStudents = async (courses, userId, res) => {
           .status(500)
           .json({ success: false, error: "Course not found" })
       }
-      console.log("Updated course: ", enrolledCourse)
+      // console.log("Updated course: ", enrolledCourse)
 
       const courseProgress = await CourseProgress.create({
         courseID: courseId,
